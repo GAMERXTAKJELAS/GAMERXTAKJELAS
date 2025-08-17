@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SIMPLE DART GAMES</title>
+<style>
+  body {
+    font-family: 'Arial Black', sans-serif;
+    background: linear-gradient(135deg, #ffcc00, #ff66cc);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #fff;
+  }
+  h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #000;
+    text-align: center;
+  }
+
+  #board-container {
+    position: relative;
+    width: 80vw;
+    max-width: 400px;
+    aspect-ratio: 1/1;
+    margin-bottom: 20px;
+    background: url('https://img.freepik.com/premium-vector/vector-flat-cartoon-colored-darts-board-target_505913-3312.jpg') center/cover no-repeat;
+    border-radius: 50%;
+  }
+
+  #vertical-bar, #horizontal-bar {
+    position: absolute;
+    background: rgba(0,255,0,0.7);
+    z-index: 10;
+  }
+  #vertical-bar {
+    width: 100%;
+    height: 4px;
+    top: 0;
+    box-shadow: 0 0 10px #0f0;
+  }
+  #horizontal-bar {
+    height: 100%;
+    width: 4px;
+    left: 0;
+    box-shadow: 0 0 10px #0f0;
+  }
+
+  #info, #round-score, #results {
+    margin: 10px;
+    font-size: 1.2em;
+    text-align: center;
+    text-shadow: 1px 1px #000;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff3300, #ffcc00);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 10px #000;
+    color: #000;
+    font-size: 1em;
+    transition: all 0.2s;
+  }
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 15px #fff;
+  }
+</style>
+</head>
+<body>
+
+<h1>SIMPLE DART GAMES</h1>
+<div id="info">Click to lock vertical aim...</div>
+<div id="board-container">
+  <div id="vertical-bar"></div>
+  <div id="horizontal-bar" style="display:none;"></div>
+</div>
+<div id="round-score"></div>
+<div id="results"></div>
+<button id="next-round" style="display:none;">Next Round</button>
+<button id="redirect-btn" style="display:none;">Submit to Google Form</button>
+
+<script>
+const board = document.getElementById("board-container");
+const vBar = document.getElementById("vertical-bar");
+const hBar = document.getElementById("horizontal-bar");
+const info = document.getElementById("info");
+const roundScore = document.getElementById("round-score");
+const resultsEl = document.getElementById("results");
+const nextBtn = document.getElementById("next-round");
+const redirectBtn = document.getElementById("redirect-btn");
+
+let phase = "vertical";
+let round = 1;
+let scores = [];
+let vPos = 0;
+let hPos = 0;
+let vDir = 1;
+let hDir = 1;
+
+function moveVertical() {
+  const maxY = board.clientHeight - 4;
+  vPos += vDir * 3;
+  if(vPos <= 0 || vPos >= maxY) vDir*=-1;
+  vBar.style.top = vPos + "px";
+  if(phase==="vertical") requestAnimationFrame(moveVertical);
+}
+
+function moveHorizontal() {
+  const maxX = board.clientWidth - 4;
+  hPos += hDir * 3;
+  if(hPos <= 0 || hPos >= maxX) hDir*=-1;
+  hBar.style.left = hPos + "px";
+  if(phase==="horizontal") requestAnimationFrame(moveHorizontal);
+}
+
+moveVertical();
+
+board.addEventListener("click", () => {
+  if(phase==="vertical") {
+    phase = "horizontal";
+    info.textContent="Click to lock horizontal aim...";
+    hBar.style.display="block";
+    moveHorizontal();
+  } else if(phase==="horizontal") {
+    phase="throw";
+    hBar.style.display="none";
+    throwDart();
+  }
+});
+
+function throwDart() {
+  const cx = board.clientWidth/2;
+  const cy = board.clientHeight/2;
+  const dist = Math.hypot(hPos - cx, vPos - cy);
+  const radius = board.clientWidth/2;
+
+  let score = Math.max(1, Math.round((1 - dist/radius)*20));
+  scores.push(score);
+
+  roundScore.innerHTML=`Round ${round} Score: ${score} pts`;
+  nextBtn.style.display="block";
+  info.textContent="Click 'Next Round' to continue...";
+}
+
+nextBtn.addEventListener("click", ()=>{
+  nextBtn.style.display="none";
+  if(round < 3){
+    round++;
+    phase="vertical";
+    info.textContent=`Round ${round}: Click to lock vertical aim...`;
+    moveVertical();
+    roundScore.innerHTML="";
+  } else {
+    endGame();
+  }
+});
+
+function endGame(){
+  info.style.display="none";
+  roundScore.style.display="none";
+  let total = scores.reduce((a,b)=>a+b,0);
+  let text = `<strong>Results:</strong><br>`;
+  scores.forEach((s,i)=>{text+=`Round ${i+1}: ${s} pts<br>`});
+  text+=`<br><strong>Total Score: ${total} pts</strong>`;
+  resultsEl.innerHTML=text;
+  resultsEl.style.display="block";
+  redirectBtn.style.display="block";
+}
+
+redirectBtn.addEventListener("click", ()=>{
+  window.location.href="https://example.com"; // replace with Google Form link
+});
+</script>
+
+</body>
+</html>
