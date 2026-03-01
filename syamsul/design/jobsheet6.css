@@ -1,0 +1,65 @@
+body {
+    background-color: #ddd; /* [cite: 20] */
+    color: #222; /* [cite: 21] */
+    font-family: Helvetica; /* [cite: 21] */
+    font-size: 14px; /* [cite: 21] */
+    margin: 0; /* [cite: 22] */
+    padding: 0; /* [cite: 22] */
+}
+
+h1 {
+    margin: 0; /* [cite: 25] */
+    padding: 0; /* [cite: 25] */
+}
+
+h1 a {
+    background: linear-gradient(#ccc, #999); /* PENTING: Gradient mengikut  */
+    border-bottom: #666 solid 1px; /* [cite: 30] */
+    text-decoration: none; /* [cite: 31] */
+    color: #222; /* [cite: 31] */
+    font-size: 20px; /* [cite: 31] */
+    font-weight: bold; /* [cite: 31] */
+    text-align: center; /* [cite: 31] */
+    padding: 10px 0; /* [cite: 32] */
+    text-shadow: 0px 1px 0px #fff; /* Shadow halus mengikut [cite: 33, 35] */
+    display: block; /*  */
+}
+
+ul {
+    list-style: none; /* [cite: 38] */
+    margin: 10px; /* [cite: 39] */
+    padding: 0; /* [cite: 39] */
+}
+
+li a {
+    background-color: #ffffff; /* [cite: 42] */
+    border: 1px solid #999999; /* Border penuh mengikut  */
+    text-decoration: none; /* [cite: 45] */
+    color: #222;
+    font-size: 17px; /* [cite: 45] */
+    font-weight: bold; /* [cite: 45] */
+    margin-bottom: -1px; /* Untuk elak border bertindih jadi tebal [cite: 46] */
+    padding: 12px 10px; /* [cite: 47] */
+    display: block; /* [cite: 47] */
+}
+
+/* PEMBETULAN LOGIK BORDER RADIUS */
+/* Target elemen <li> pertama di dalam mana-mana <ul> */
+ul li:first-child a {
+    border-top-left-radius: 8px; /*  */
+    border-top-right-radius: 8px; /*  */
+}
+
+/* Target elemen <li> terakhir di dalam mana-mana <ul> */
+ul li:last-child a {
+    border-bottom-left-radius: 8px; /*  */
+    border-bottom-right-radius: 8px; /*  */
+}
+
+section, aside {
+    padding: 10px; /* [cite: 51] */
+}
+
+footer {
+    display: none; /* [cite: 52] */
+}

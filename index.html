@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Page with Variables</title>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
+    </nav>
+
+    <section id="jobsheet">
+        <h1>Project Jobsheet</h1>
+        <p>Centralized documentation for all technical tasks.</p>
+        <a href="#" class="btn-primary">View Team Tasks</a>
+        <div class="scroll-down">
+    <span>Scroll to explore</span>
+    <div class="arrow"></div>
+</div>
+    </section>
+
+<section id="members">
+    <div class="section-header">
+        <h1>Team Members</h1>
+        <p>The core team behind the Project Jobsheet development.</p>
+    </div>
+    
+    <div class="card-container">
+        <div class="member-card">
+            <div class="card-pfp">
+                <img src="/syamsul/work_sheet/img/MYPFP.jpeg" alt="Syamsul">
+            </div>
+            <h3>Syamsul Nazir</h3>
+            <span>Lead Developer</span>
+            <a href="syamsul/syamsulpage.html" class="btn">View Jobsheet</a>
+        </div>
+
+        <div class="member-card">
+            <div class="card-pfp">
+                <img src="path_to_ammar_pfp.jpg" alt="Ammar">
+            </div>
+            <h3>Muhammad Ammar</h3>
+            <span>Technical Writer</span>
+            <a href="#" class="btn">View Jobsheet</a>
+        </div>
+    </div>
+</section>
+
+</body>
+    <link rel="stylesheet" href="index.css">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const scrollBtn = document.querySelector('.btn-primary');
+    const targetSection = document.querySelector('#members');
+
+    if (scrollBtn && targetSection) {
+        scrollBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Button clicked! Scrolling to members...");
+            
+            targetSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start' 
+            });
+        });
+    } else {
+        console.log("Error: Button or Section not found. Check your IDs!");
+    }
+});
+</script>
+</html>
