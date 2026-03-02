@@ -12,7 +12,8 @@ figure, figcaption, h1, h2, h3, ul, li, div, p, img {
 /* ========== TAMBAH BORDER PADA PAGE ========== */
 body {
     border: 2px solid #cccccc;        /* Border kelabu di sekeliling page */
-    border-radius: 10px;               /* Sudut melengkung */
+    border-radius: 10px; 
+    justify-content: center;              /* Sudut melengkung */
     padding: 30px;                      /* Ruang dalam supaya content tak melekat pada border */
     max-width: 800px;                    /* Lebar maksimum */
     margin: 30px auto;                    /* Tengah page */
