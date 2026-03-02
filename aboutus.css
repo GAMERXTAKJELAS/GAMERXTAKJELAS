@@ -1,11 +1,11 @@
 /* main */
 :root {
-    --body-color: #1a1a2e;
-    --sidebar-color: #16213e;
-    --primary-color: #6c5ce7;
-    --card-bg: #0f3460;
-    --text-color: #f5f6fa;
-    --text-muted: #a0a3b1;
+    --body-color: #0b0e11;
+    --sidebar-color: #15191c;
+    --primary-color: #aca674;
+    --card-bg: #1c2126;
+    --text-color: #e4e6eb;
+    --text-muted: #b0b3b8;
     --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
