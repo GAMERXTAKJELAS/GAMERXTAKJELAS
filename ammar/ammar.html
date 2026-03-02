@@ -12,7 +12,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <a href="../index.html">My<span>Homepage</span></a>
+                <a href="../index.html">My<span>Portfolio</span></a>
             </div>
             <ul class="nav-menu">
                 <li><a href="../index.html" data-icon="🏠">Home</a></li>
@@ -33,6 +33,30 @@
             Loading...
         </div>
         
+        <!-- NEW: Stats Bar - Moved below progress bar -->
+        <div class="stats-bar" id="statsBar">
+            <div class="stat-item">
+                <span class="stat-icon">📊</span>
+                <span class="stat-label">Total Labs:</span>
+                <span class="stat-value" id="totalLabs">14</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">✅</span>
+                <span class="stat-label">Completed:</span>
+                <span class="stat-value" id="completedLabs">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">⏳</span>
+                <span class="stat-label">In Progress:</span>
+                <span class="stat-value" id="pendingLabs">14</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">📈</span>
+                <span class="stat-label">Completion:</span>
+                <span class="stat-value" id="completionPercent">0%</span>
+            </div>
+        </div>
+        
         <div class="instructions">
             <h3>📋 Project Folder Structure:</h3>
 <ol>
@@ -48,7 +72,6 @@
         
         <div class="footer" id="footer">
             <p>© 2026 CSS Labs Portfolio | All images are copyright to their owners</p>
-            <p id="footerStats">Loading statistics...</p>
         </div>
     </div>
 
@@ -101,21 +124,22 @@
                 const total = updatedLabs.length;
                 const pct   = Math.round((completed / total) * 100);
 
-                // Update progress bar — set --pct first (width: 0), then after paint animate to real value
+                // Update progress bar
                 const bar = document.getElementById('progressBar');
                 bar.style.setProperty('--pct', '0%');
                 bar.innerHTML = `<span>📊 Progress: ${completed}/${total} Labs Completed (${pct}%)</span>`;
 
-                // Small delay so CSS transition fires properly
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
                         bar.style.setProperty('--pct', pct + '%');
                     });
                 });
 
-                // Update footer
-                document.getElementById('footerStats').textContent =
-                    `Total: ${total} Labs | Completed: ${completed} | In Progress: ${total - completed}`;
+                // Update stats bar
+                document.getElementById('totalLabs').textContent = total;
+                document.getElementById('completedLabs').textContent = completed;
+                document.getElementById('pendingLabs').textContent = total - completed;
+                document.getElementById('completionPercent').textContent = pct + '%';
 
                 // Build cards
                 updatedLabs.forEach((lab, i) => {
