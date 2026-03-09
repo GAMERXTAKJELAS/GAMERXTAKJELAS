@@ -153,3 +153,119 @@ input:checked + .slider:before { transform: translateX(24px); background-color: 
 /* CONFETTI */
 .confetti-piece { animation: confettiFall 1.2s ease-out forwards; }
 @keyframes confettiFall { 0% { transform: translate(0,0); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+
+.visual-core {
+    position: relative;
+    width: 460px; height: 460px;
+}
+
+/* Ring 1 — innermost (teal dashed, reverse) */
+.ring-mid {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 216px; height: 216px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px dashed rgba(0,245,200,0.25);
+    animation: spinSlow 10s linear infinite reverse;
+}
+.ring-mid::before {
+    content:'';
+    position: absolute;
+    bottom: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 8px; height: 8px;
+    background: #00f5c8;
+    border-radius: 50%;
+    box-shadow: 0 0 14px #00f5c8, 0 0 28px rgba(0,245,200,0.5);
+}
+.ring-mid::after {
+    content:'';
+    position: absolute;
+    top: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 5px; height: 5px;
+    background: rgba(0,245,200,0.5);
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00f5c8;
+}
+
+/* Ring 2 — middle (purple solid, forward) */
+.ring-outer {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 300px; height: 300px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(124,108,252,0.15);
+    animation: spinSlow 18s linear infinite;
+}
+.ring-outer::before {
+    content:'';
+    position: absolute;
+    top: -3px; left: 50%;
+    transform: translateX(-50%);
+    width: 6px; height: 6px;
+    background: #7c6cfc;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #7c6cfc;
+}
+
+/* Ring 3 — outermost (orange dotted, forward slow) */
+.ring-outer2 {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 424px; height: 424px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px dotted rgba(255,112,67,0.15);
+    animation: spinSlow 22s linear infinite;
+}
+.ring-outer2::before {
+    content:'';
+    position: absolute;
+    top: -3px; left: 50%;
+    transform: translateX(-50%);
+    width: 5px; height: 5px;
+    background: #ff7043;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff7043;
+}
+
+/* Spin keyframe — satu je untuk semua ring */
+@keyframes spinSlow {
+    to { transform: rotate(360deg); }
+}
+
+/* Cards & pills — position set by JS */
+.orbit-card {
+    position: absolute;
+    white-space: nowrap;
+    background: rgba(12,14,26,0.9);
+    backdrop-filter: blur(16px);
+    padding: 11px 18px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+.stat-pill {
+    position: absolute;
+    background: rgba(12,14,26,0.9);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 100px;
+    padding: 7px 14px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    backdrop-filter: blur(12px);
+    white-space: nowrap;
+    z-index: 10;
+}

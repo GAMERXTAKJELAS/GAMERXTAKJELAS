@@ -4,170 +4,655 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Jobsheet Progress</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
+    <style>
+        :root {
+            --bg:       #050810;
+            --bg2:      #080d1a;
+            --surface:  rgba(255,255,255,0.04);
+            --border:   rgba(255,255,255,0.08);
+            --accent:   #00f5c4;
+            --accent2:  #7b5cff;
+            --accent3:  #ff5c8a;
+            --text:     #e8eaf6;
+            --muted:    rgba(232,234,246,0.45);
+            --glow:     0 0 40px rgba(0,245,196,0.18);
+        }
+        [data-theme="light"] {
+            --bg:      #f0f4ff;
+            --bg2:     #e4eaff;
+            --surface: rgba(255,255,255,0.7);
+            --border:  rgba(0,0,0,0.08);
+            --text:    #0d1230;
+            --muted:   rgba(13,18,48,0.5);
+            --glow:    0 0 40px rgba(123,92,255,0.15);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        /* ─── NOISE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 0;
+            opacity: 0.35;
+        }
+
+        /* ─── AURORA BG ─── */
+        .aurora {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            overflow: hidden;
+        }
+        .aurora span {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+        .aurora span:nth-child(1) { width: 600px; height: 600px; background: var(--accent2); top: -20%; left: -10%; animation-duration: 20s; }
+        .aurora span:nth-child(2) { width: 500px; height: 500px; background: var(--accent); top: 40%; right: -15%; animation-duration: 25s; animation-delay: -8s; }
+        .aurora span:nth-child(3) { width: 400px; height: 400px; background: var(--accent3); bottom: -10%; left: 30%; animation-duration: 22s; animation-delay: -4s; }
+        @keyframes drift { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(40px,30px) scale(1.15)} }
+
+        /* ─── THEME SWITCH ─── */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+        .theme-switch { position: relative; display: inline-block; width: 64px; height: 32px; }
+        .theme-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; inset: 0; cursor: pointer;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            backdrop-filter: blur(10px);
+            transition: 0.4s;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8px;
+        }
+        .slider i { font-size: 13px; color: var(--muted); transition: 0.3s; }
+        .slider::after {
+            content: '';
+            position: absolute; left: 4px;
+            width: 24px; height: 24px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 50%;
+            transition: 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 0 12px rgba(0,245,196,0.5);
+        }
+        input:checked ~ .slider::after { transform: translateX(32px); }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+            padding: 0 40px;
+            height: 72px;
+            display: flex; align-items: center;
+            background: rgba(5,8,16,0.6);
+            backdrop-filter: blur(20px) saturate(1.4);
+            border-bottom: 1px solid var(--border);
+        }
+        [data-theme="light"] .navbar { background: rgba(240,244,255,0.7); }
+
+        .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+        .logo a {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px; letter-spacing: 2px;
+            color: var(--text); text-decoration: none;
+        }
+        .logo span {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu { list-style: none; display: flex; gap: 8px; }
+        .nav-menu a {
+            text-decoration: none; color: var(--muted);
+            font-size: 14px; font-weight: 500; letter-spacing: 0.5px;
+            padding: 7px 18px; border-radius: 30px;
+            transition: 0.25s;
+            border: 1px solid transparent;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--text);
+            background: var(--surface);
+            border-color: var(--border);
+        }
+        .nav-menu a.active { color: var(--accent); }
+
+        /* ─── HERO SECTION ─── */
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 100vh;
+            display: grid; grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 100px 80px 60px;
+            gap: 40px;
+            max-width: 1400px; margin: 0 auto;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+            text-transform: uppercase; color: var(--accent);
+            background: rgba(0,245,196,0.08);
+            border: 1px solid rgba(0,245,196,0.2);
+            padding: 6px 16px; border-radius: 30px;
+            margin-bottom: 28px;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(52px, 6vw, 88px);
+            line-height: 1.0;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+        .highlight {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .subtitle {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-style: italic;
+            color: var(--accent2); font-weight: 300;
+            margin-bottom: 14px; letter-spacing: 0.5px;
+        }
+
+        .description {
+            font-size: 15px; line-height: 1.75;
+            color: var(--muted); max-width: 440px;
+            margin-bottom: 40px;
+        }
+
+        /* ─── YN BUTTONS ─── */
+        .yn-question {
+            font-size: 17px; font-weight: 500;
+            color: var(--text); margin-bottom: 20px;
+        }
+        .yn-buttons { display: flex; gap: 14px; margin-bottom: 28px; align-items: center; }
+
+        .btn-yes, .btn-no {
+            padding: 13px 28px; border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px; font-weight: 600;
+            cursor: pointer; border: none; transition: 0.25s;
+            letter-spacing: 0.5px;
+        }
+        .btn-yes {
+            background: linear-gradient(135deg, var(--accent), #00c896);
+            color: #050810;
+            box-shadow: 0 0 0 rgba(0,245,196,0);
+        }
+        .btn-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,245,196,0.4);
+        }
+        .btn-no {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            position: fixed; z-index: 9999;
+            transition: left 0.15s, top 0.15s, opacity 0.3s;
+        }
+        .btn-no:hover { background: rgba(255,92,138,0.15); border-color: var(--accent3); }
+
+        /* ─── HERO BUTTONS ─── */
+        .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+
+        .jobsheet-reveal { opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity 0.5s, transform 0.5s; }
+        .jobsheet-reveal.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 28px; border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px; font-weight: 600;
+            text-decoration: none; cursor: pointer;
+            transition: 0.25s; letter-spacing: 0.5px;
+        }
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent2), var(--accent3));
+            color: #fff;
+        }
+        .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(123,92,255,0.4); }
+        .btn.secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn.secondary:hover { background: rgba(255,255,255,0.08); border-color: var(--accent2); color: var(--accent2); }
+
+        /* ─── DROPDOWN ─── */
+        .dropdown-wrapper { position: relative; }
+        .dropdown-arrow { transition: transform 0.3s; font-size: 12px; }
+        .dropdown-wrapper.open .dropdown-arrow { transform: rotate(180deg); }
+
+        .dropdown-menu {
+            position: absolute; top: calc(100% + 10px); left: 0;
+            min-width: 220px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px;
+            opacity: 0; pointer-events: none;
+            transform: translateY(-8px) scale(0.97);
+            transition: 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .dropdown-wrapper.open .dropdown-menu { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+
+        .dropdown-menu a {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; border-radius: 10px;
+            text-decoration: none; color: var(--text);
+            transition: 0.2s;
+        }
+        .dropdown-menu a:hover { background: var(--surface); }
+
+        .member-avatar-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+            flex-shrink: 0;
+        }
+        .avatar-ammar { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #050810; }
+        .avatar-syamsul { background: linear-gradient(135deg, var(--accent2), var(--accent3)); color: #fff; }
+
+        .member-details { display: flex; flex-direction: column; }
+        .member-name { font-size: 14px; font-weight: 600; }
+        .member-title { font-size: 11px; color: var(--muted); }
+
+        /* ─── VISUAL CORE ─── */
+        .visual-core {
+            position: relative;
+            width: 460px; height: 460px;
+            margin: 0 auto;
+        }
+
+        .ring-outer2, .ring-outer, .ring-mid {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid var(--border);
+        }
+        .ring-outer2 {
+            width: 424px; height: 424px;
+            border-color: rgba(123,92,255,0.15);
+            animation: spin-r 60s linear infinite;
+            background: radial-gradient(circle, transparent 45%, rgba(123,92,255,0.03) 100%);
+        }
+        .ring-outer {
+            width: 300px; height: 300px;
+            border-color: rgba(0,245,196,0.15);
+            animation: spin 40s linear infinite;
+            background: radial-gradient(circle, transparent 40%, rgba(0,245,196,0.03) 100%);
+        }
+        .ring-mid {
+            width: 178px; height: 178px;
+            border-color: rgba(255,255,255,0.06);
+            border-style: dashed;
+        }
+        @keyframes spin   { to { transform: translate(-50%,-50%) rotate(360deg);  } }
+        @keyframes spin-r { to { transform: translate(-50%,-50%) rotate(-360deg); } }
+
+        /* Tick marks on rings */
+        .ring-outer::before, .ring-outer2::before {
+            content: '';
+            position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+            width: 6px; height: 6px; border-radius: 50%;
+        }
+        .ring-outer::before  { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .ring-outer2::before { background: var(--accent2); box-shadow: 0 0 10px var(--accent2); }
+
+        /* Centre Blob */
+        .center-blob {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            width: 110px; height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0,245,196,0.15), rgba(123,92,255,0.15));
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 60px rgba(0,245,196,0.12), 0 0 120px rgba(123,92,255,0.08), inset 0 0 30px rgba(0,245,196,0.05);
+            animation: pulse-blob 4s ease-in-out infinite;
+        }
+        @keyframes pulse-blob {
+            0%,100% { box-shadow: 0 0 60px rgba(0,245,196,0.12), 0 0 120px rgba(123,92,255,0.08); transform: translate(-50%,-50%) scale(1); }
+            50%      { box-shadow: 0 0 80px rgba(0,245,196,0.22), 0 0 160px rgba(123,92,255,0.15); transform: translate(-50%,-50%) scale(1.04); }
+        }
+        .blob-icon { font-size: 38px; filter: drop-shadow(0 0 12px rgba(0,245,196,0.5)); }
+
+        /* Orbit Cards */
+        .orbit-card {
+            position: absolute;
+            display: flex; align-items: center; gap: 9px;
+            padding: 10px 18px; border-radius: 30px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            font-size: 12px; font-weight: 600; white-space: nowrap;
+            color: var(--text);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            pointer-events: none;
+        }
+        .oc-labs { border-color: rgba(0,245,196,0.3); }
+        .oc-css  { border-color: rgba(123,92,255,0.3); }
+        .oc-labs i { color: var(--accent); font-size: 14px; }
+        .oc-css  i { color: var(--accent2); font-size: 14px; }
+
+        /* Stat Pills */
+        .stat-pill {
+            position: absolute;
+            display: flex; align-items: center; gap: 8px;
+            padding: 7px 16px; border-radius: 30px;
+            background: rgba(5,8,16,0.7);
+            border: 1px solid var(--border);
+            font-size: 11px; font-weight: 500;
+            color: var(--muted); white-space: nowrap;
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+        }
+        [data-theme="light"] .stat-pill { background: rgba(255,255,255,0.75); }
+        .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: blink 2s ease-in-out infinite; }
+
+        /* ─── CONFETTI ─── */
+        @keyframes confetti-fly {
+            0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) rotate(720deg) scale(0); opacity: 0; }
+        }
+        .confetti-piece {
+            border-radius: 3px;
+            animation: confetti-fly 1.2s ease-out forwards;
+            z-index: 9999;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; padding: 100px 30px 60px; }
+            .visual-core { width: 300px; height: 300px; }
+            .ring-outer2 { width: 290px; height: 290px; }
+            .ring-outer  { width: 200px; height: 200px; }
+            .ring-mid    { width: 120px; height: 120px; }
+        }
+
+        /* ─── SCROLL GRADIENT LINE ─── */
+        .scroll-line {
+            position: fixed; left: 0; top: 0; width: 3px;
+            height: 0%; background: linear-gradient(180deg, var(--accent), var(--accent2), var(--accent3));
+            z-index: 999; border-radius: 0 3px 3px 0;
+            transition: height 0.1s;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox" />
-            <div class="slider round">
-                <i class="fas fa-moon"></i>
-                <i class="fas fa-sun"></i>
+<div class="aurora">
+    <span></span><span></span><span></span>
+</div>
+<div class="scroll-line" id="scrollLine"></div>
+
+
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- LEFT: nav links -->
+        <ul class="nav-menu">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
+
+        <!-- CENTER: logo -->
+        <div class="logo">
+            <a href="#">Our Homepage <span>Jobsheet</span></a>
+        </div>
+
+        <!-- RIGHT: theme switch -->
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </div>
+            </label>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">Available for Learning</div>
+        <h1>Hi, are we your <span class="highlight">Fav Student?</span></h1>
+        <p class="subtitle">Web Development Student | CSS Enthusiast</p>
+        <p class="description">
+            Welcome to my learning journey! I'm currently mastering CSS3 through hands-on projects and lab exercises.
+        </p>
+
+        <p class="yn-question" id="ynQuestion">Are you sure you want to view my work? 👀</p>
+        <div class="yn-buttons" id="ynButtons">
+            <button class="btn-yes" id="btnYes" onclick="handleYes()">✅ Yes!</button>
+            <button class="btn-no" id="btnNo">❌ No</button>
+        </div>
+
+        <div class="hero-buttons jobsheet-reveal" id="jobsheetReveal">
+            <a href="about_us.html" class="btn primary">
+                <i class="fas fa-rocket"></i> Learn More
+            </a>
+            <div class="dropdown-wrapper" id="workDropdown">
+                <button class="btn secondary" onclick="toggleDropdown(event)">
+                    View Our Work <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a href="ammar/ammar.html">
+                        <span class="member-avatar-icon avatar-ammar">A</span>
+                        <span class="member-details">
+                            <span class="member-name">Ammar</span>
+                            <span class="member-title">Project Lead</span>
+                        </span>
+                    </a>
+                    <a href="syamsul/syamsulpage.html">
+                        <span class="member-avatar-icon avatar-syamsul">S</span>
+                        <span class="member-details">
+                            <span class="member-name">Syamsul</span>
+                            <span class="member-title">Technical Specialist</span>
+                        </span>
+                    </a>
+                </div>
             </div>
-        </label>
+        </div>
     </div>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <a href="#">Our Homepage <span>Jobsheet</span></a>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#" class="active">Home</a></li>
-                <li><a href="about_us.html">About Us</a></li>
-            </ul>
-        </div>
-    </nav>
+    <!-- VISUAL CORE -->
+    <div class="visual-core" id="visualCore">
+        <div class="ring-outer2"></div>
+        <div class="ring-outer"></div>
+        <div class="ring-mid"></div>
 
-    <section id="home" class="hero">
-        <div class="hero-inner">
-            <div class="hero-content">
-                <div class="hero-eyebrow">Available for Learning</div>
-                <h1 class="glow-text">Hi, are we your <span class="highlight">Fav Student ?</span></h1>
-                <p class="subtitle">Web Development Student | CSS Enthusiast</p>
-                <p class="description">
-                    Welcome to my learning journey! I'm currently mastering CSS3 through hands-on projects and lab exercises.
-                </p>
-
-                <p class="yn-question" id="ynQuestion">Are you sure you want to view my work? 👀</p>
-                <div class="yn-buttons" id="ynButtons">
-                    <button class="btn-yes" id="btnYes" onclick="handleYes()">✅ Yes!</button>
-                    <button class="btn-no" id="btnNo">❌ No</button>
-                </div>
-
-                <div class="hero-buttons jobsheet-reveal" id="jobsheetReveal">
-                    <a href="about_us.html" class="btn primary">Learn More</a>
-                    <div class="dropdown-wrapper" id="workDropdown">
-                        <button class="btn secondary" onclick="toggleDropdown(event)">
-                            View Our Work <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="ammar/ammar.html">
-                                <span class="member-avatar-icon avatar-ammar">A</span>
-                                <span class="member-details">
-                                    <span class="member-name">Ammar</span>
-                                    <span class="member-title">Project Lead</span>
-                                </span>
-                            </a>
-                            <a href="syamsul/syamsulpage.html">
-                                <span class="member-avatar-icon avatar-syamsul">S</span>
-                                <span class="member-details">
-                                    <span class="member-name">Syamsul</span>
-                                    <span class="member-title">Technical Specialist</span>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-image">
-                <div class="orbit-system" id="orbitSystem">
-                    <div class="orbit-center"><i class="fas fa-laptop-code"></i></div>
-                    <div class="orbit-ring"></div>
-                    <div class="orbit-card card-labs" id="orbitCard1">
-                        <i class="fas fa-code"></i><span>15 Labs Completed</span>
-                    </div>
-                    <div class="orbit-card card-css" id="orbitCard2">
-                        <i class="fab fa-css3-alt"></i><span>CSS3 Mastery</span>
-                    </div>
-                </div>
+        <div class="center-blob">
+            <div class="blob-bg">
+                <span class="blob-icon">💻</span>
             </div>
         </div>
-    </section>
 
-    <script>
-        // 1. THEME TOGGLE LOGIC
-        const toggleSwitch = document.querySelector('#checkbox');
-        const currentTheme = localStorage.getItem('theme');
+        <div class="orbit-card oc-labs" id="card1">
+            <i class="fas fa-code"></i>
+            <span>15 Labs Completed</span>
+        </div>
+        <div class="orbit-card oc-css" id="card2">
+            <i class="fab fa-css3-alt"></i>
+            <span>CSS3 Mastery</span>
+        </div>
 
-        if (currentTheme) {
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            if (currentTheme === 'light') toggleSwitch.checked = true;
+        <div class="stat-pill" id="pill1">
+            <div class="dot"></div>
+            <span>Active Student</span>
+        </div>
+        <div class="stat-pill" id="pill2">
+            <div class="dot"></div>
+            <span>Web Dev Journey</span>
+        </div>
+    </div>
+</section>
+
+<script>
+    // 1. SCROLL LINE
+    window.addEventListener('scroll', () => {
+        const total = document.body.scrollHeight - window.innerHeight;
+        document.getElementById('scrollLine').style.height = (window.scrollY / total * 100) + '%';
+    });
+
+    // 2. THEME TOGGLE
+    const toggleSwitch = document.querySelector('#checkbox');
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'light') toggleSwitch.checked = true;
+    }
+    toggleSwitch.addEventListener('change', (e) => {
+        const theme = e.target.checked ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    });
+
+    // 3. YES/NO BUTTONS
+    const btnNo  = document.getElementById('btnNo');
+    const btnYes = document.getElementById('btnYes');
+
+    window.addEventListener('load', () => {
+        const rect = btnYes.getBoundingClientRect();
+        btnNo.style.left = (rect.right + 20) + 'px';
+        btnNo.style.top  = rect.top + 'px';
+    });
+
+    btnNo.addEventListener('mouseover', () => {
+        btnNo.style.left = Math.random() * (window.innerWidth  - 120) + 'px';
+        btnNo.style.top  = Math.random() * (window.innerHeight -  50) + 'px';
+    });
+
+    function handleYes() {
+        document.getElementById('ynQuestion').textContent = "Great! Here's what you can explore 🎉";
+        btnYes.style.display = 'none';
+        btnNo.style.display  = 'none';
+        document.getElementById('jobsheetReveal').classList.add('show');
+        spawnConfetti();
+    }
+
+    function toggleDropdown(e) {
+        e.stopPropagation();
+        document.getElementById('workDropdown').classList.toggle('open');
+    }
+
+    function spawnConfetti() {
+        for (let i = 0; i < 60; i++) {
+            const c = document.createElement('div');
+            c.className = 'confetti-piece';
+            const colors = ['#00f5c4','#7b5cff','#ff5c8a','#ffd700','#00bfff'];
+            c.style.cssText = `
+                left:50%; top:50%;
+                background:${colors[Math.floor(Math.random()*colors.length)]};
+                width:${6+Math.random()*8}px; height:${6+Math.random()*8}px;
+                border-radius:${Math.random()>0.5?'50%':'3px'};
+                position:fixed;
+            `;
+            c.style.setProperty('--dx', (Math.random()-0.5)*600 + 'px');
+            c.style.setProperty('--dy', (Math.random()-0.5)*600 + 'px');
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 1400);
         }
+    }
 
-        toggleSwitch.addEventListener('change', (e) => {
-            const theme = e.target.checked ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-        });
+    window.onclick = () => document.getElementById('workDropdown').classList.remove('open');
 
-        // 2. ORBIT ANIMATION
-        (function() {
-            const system = document.getElementById('orbitSystem');
-            const card1 = document.getElementById('orbitCard1');
-            const card2 = document.getElementById('orbitCard2');
-            const radius = 130;
-            const speed = 0.0008;
-            let angle = 0, lastTime = null;
+    // 4. ORBIT ANIMATION
+    (function(){
+        const core  = document.getElementById('visualCore');
+        const card1 = document.getElementById('card1');
+        const card2 = document.getElementById('card2');
+        const pill1 = document.getElementById('pill1');
+        const pill2 = document.getElementById('pill2');
 
-            function step(timestamp) {
-                if (!lastTime) lastTime = timestamp;
-                angle += speed * (timestamp - lastTime);
-                lastTime = timestamp;
-                const cx = system.offsetWidth / 2, cy = system.offsetHeight / 2;
-                card1.style.left = (cx + radius * Math.cos(angle) - card1.offsetWidth / 2) + 'px';
-                card1.style.top = (cy + radius * Math.sin(angle) - card1.offsetHeight / 2) + 'px';
-                card2.style.left = (cx + radius * Math.cos(angle + Math.PI) - card2.offsetWidth / 2) + 'px';
-                card2.style.top = (cy + radius * Math.sin(angle + Math.PI) - card2.offsetHeight / 2) + 'px';
-                requestAnimationFrame(step);
-            }
-            requestAnimationFrame(step);
-        })();
+        const R_inner  = 148;
+        const R_outer  = 210;
+        const spd_inner =  0.0006;
+        const spd_outer = -0.0004;
 
-        // 3. UI INTERACTIONS (YES/NO/DROPDOWN)
-        const btnNo = document.getElementById('btnNo');
-        const btnYes = document.getElementById('btnYes');
+        let angle = 0, last = null;
 
-        window.addEventListener('load', () => {
-            const rect = btnYes.getBoundingClientRect();
-            btnNo.style.left = (rect.right + 20) + 'px';
-            btnNo.style.top = rect.top + 'px';
-        });
+        function tick(ts) {
+            if (!last) last = ts;
+            const delta = ts - last; last = ts;
+            angle += spd_inner * delta;
 
-        btnNo.addEventListener('mouseover', () => {
-            btnNo.style.left = Math.random() * (window.innerWidth - 120) + 'px';
-            btnNo.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-        });
+            const cx = core.offsetWidth  / 2;
+            const cy = core.offsetHeight / 2;
 
-        function handleYes() {
-            document.getElementById('ynQuestion').textContent = "Great! Here's what you can explore 🎉";
-            btnYes.style.display = 'none';
-            btnNo.style.display = 'none';
-            document.getElementById('jobsheetReveal').classList.add('show');
-            spawnConfetti();
+            const x1 = cx + R_inner * Math.cos(angle);
+            const y1 = cy + R_inner * Math.sin(angle);
+            const x2 = cx + R_inner * Math.cos(angle + Math.PI);
+            const y2 = cy + R_inner * Math.sin(angle + Math.PI);
+
+            card1.style.left = (x1 - card1.offsetWidth  / 2) + 'px';
+            card1.style.top  = (y1 - card1.offsetHeight / 2) + 'px';
+            card2.style.left = (x2 - card2.offsetWidth  / 2) + 'px';
+            card2.style.top  = (y2 - card2.offsetHeight / 2) + 'px';
+
+            const outerAngle = angle * (spd_outer / spd_inner);
+            const px1 = cx + R_outer * Math.cos(outerAngle);
+            const py1 = cy + R_outer * Math.sin(outerAngle);
+            const px2 = cx + R_outer * Math.cos(outerAngle + Math.PI);
+            const py2 = cy + R_outer * Math.sin(outerAngle + Math.PI);
+
+            pill1.style.left = (px1 - pill1.offsetWidth  / 2) + 'px';
+            pill1.style.top  = (py1 - pill1.offsetHeight / 2) + 'px';
+            pill2.style.left = (px2 - pill2.offsetWidth  / 2) + 'px';
+            pill2.style.top  = (py2 - pill2.offsetHeight / 2) + 'px';
+
+            requestAnimationFrame(tick);
         }
-
-        function toggleDropdown(e) {
-            e.stopPropagation();
-            document.getElementById('workDropdown').classList.toggle('open');
-        }
-
-        function spawnConfetti() {
-            for (let i = 0; i < 30; i++) {
-                const c = document.createElement('div');
-                c.className = 'confetti-piece';
-                c.style.cssText = `left:50%; top:50%; background:hsl(${Math.random()*360}, 70%, 60%); width:8px; height:8px; position:fixed;`;
-                c.style.setProperty('--dx', (Math.random()-0.5)*400 + 'px');
-                c.style.setProperty('--dy', (Math.random()-0.5)*400 + 'px');
-                document.body.appendChild(c);
-                setTimeout(() => c.remove(), 1200);
-            }
-        }
-        window.onclick = () => document.getElementById('workDropdown').classList.remove('open');
-    </script>
+        requestAnimationFrame(tick);
+    })();
+</script>
 </body>
 </html>
