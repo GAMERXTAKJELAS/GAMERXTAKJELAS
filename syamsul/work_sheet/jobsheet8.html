@@ -5,7 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+    <link rel="stylesheet" href="/syamsul/design/jobsheet8.css">
 <body>
-    
+<section id="edit-art-form">
+    <header class="form-header">
+        <h2>Edit Art Work Details</h2>
+    </header>
+
+    <form id="mainForm" method="post" action="whatever.php">
+        <div class="form-row">
+            <label>Title</label>
+            <input type="text" name="title" class="required hilightable">
+        </div>
+
+        <div class="form-row">
+            <label>Description</label>
+            <input name="description" class="required hilightable">
+        </div>
+
+        <div class="form-grid">
+            <div class="left-col">
+                <div class="form-row">
+                    <label>Genre</label>
+                    <select name="genre" class="hilightable">
+                        <option>Choose genre</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Subject</label>
+                    <select name="subject" class="hilightable">
+                        <option>Choose subject</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label>Medium</label>
+                    <input type="text" name="medium" class="hilightable">
+                </div>
+                <div class="form-row">
+                    <label>Year</label>
+                    <input type="text" name="year" class="required hilightable">
+                </div>
+                <div class="form-row">
+                    <label>Museum</label>
+                    <input type="text" name="museum" class="hilightable">
+                </div>
+            </div>
+
+            <div class="right-col">
+                <fieldset>
+                    <legend>Type</legend>
+                    <input type="radio" name="type" value="painting" checked> Painting<br>
+                    <input type="radio" name="type" value="sculpture"> Sculpture
+                </fieldset>
+
+                <fieldset>
+                    <legend>Image Creative Commons Specification</legend>
+                    <label><input type="checkbox"> Attribution</label><br>
+                    <label><input type="checkbox"> Noncommercial</label><br>
+                    <label><input type="checkbox"> No Derivative Works</label><br>
+                    <label><input type="checkbox"> Share Alike</label>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <button type="submit" class="btn-submit">Submit</button>
+            <button type="reset" class="btn-clear">Clear Form</button>
+        </div>
+    </form>
+</section>
 </body>
+    <script src="/syamsul/script/jobsheet8.js"></script>
 </html>

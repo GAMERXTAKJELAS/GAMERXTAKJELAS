@@ -1,0 +1,116 @@
+header {
+  /* Using your primary color for the dark blue look */
+  background-color: #2b3a8c; 
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  /* This pushes the "Title" to the left and "Menu" to the right */
+  justify-content: space-between; 
+  align-items: center;
+  padding: 10px 20px;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+/* Styling the first h1 to look like a logo */
+nav h1:first-child {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* Styling the second h1 to look like the menu button */
+nav h1:last-child {
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+/* Container for the 3 lines */
+.menu-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;    /* Width of the burger icon */
+    height: 20px;   /* Total height of the icon */
+    cursor: pointer;
+}
+
+/* The actual lines */
+.menu-icon span {
+    display: block;
+    width: 100%;
+    height: 4px;            /* Thickness of each line */
+    background-color: white; /* Color from the image */
+    border-radius: 2px;     /* Rounded edges */
+}
+
+/* Optional: Slight hover effect */
+.menu-icon:hover span {
+    background-color: #d0ade8; /* Using your primary color theme! */
+}
+
+/* General Page Styling */
+/* Page Background */
+body {
+    background-color: #e9ecf5; /* Light grey-blue background from image */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Gallery Container - The white box in the middle */
+#gallery {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Featured Area */
+#featured {
+    position: relative; /* CRITICAL: Allows the caption to float on top of the image */
+    margin-bottom: 20px;
+}
+
+#featured img {
+    width: 100%;
+    display: block;
+}
+
+/* The "Battle" Box Styling */
+#featured figcaption {
+    position: absolute;
+    bottom: 0; /* Positions it at the bottom of the image */
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5rem;
+    
+    /* INITIAL STATE: Hidden for JavaScript to reveal */
+    opacity: 0; 
+}
+
+/* Thumbnails Row */
+#thumbnails {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#thumbnails img {
+    width: 18%; /* Fits 5 thumbnails perfectly */
+    cursor: pointer;
+    border: 1px solid #ddd;
+}

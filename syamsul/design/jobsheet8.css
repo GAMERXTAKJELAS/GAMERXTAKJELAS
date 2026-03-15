@@ -1,0 +1,80 @@
+#edit-art-form {
+    background-color: #f4f4f4;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+}
+
+.form-header {
+    background-color: #666;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+#mainForm { padding: 20px; }
+
+.form-row { margin-bottom: 15px;}
+
+label { display: block; margin-bottom: 5px; font-weight: bold; }
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* --- The JS-Triggered Classes --- */
+
+/* 1. Highlight class (on focus) */
+.highlight {
+    background-color: #fff9c4 !important; /* Light yellow background */
+    border: 1px solid #fbc02d !important;
+}
+
+/* 2. Error class (when empty on submit) */
+.error {
+    background-color: #ffcdd2 !important; /* Light red background */
+    border: 2px solid #d32f2f !important;
+}
+
+/* General style for required inputs when they have an error */
+.required.error {
+    background-color: #ffcdd2 !important; /* The red background */
+    border: 2px solid #d32f2f !important;
+    
+    /* This adds the exclamation mark icon */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d32f2f'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+    
+    /* IMPORTANT: padding-right ensures the text you type doesn't hide the icon */
+    padding-right: 40px !important;
+}
+
+/* Optional: Removes the default blue outline so the red border stays visible */
+.required.error:focus {
+    outline: none;
+}
+
+/* Layout for two columns */
+.form-grid { display: flex; gap: 20px; }
+.left-col { flex: 1; }
+.right-col { flex: 1; }
+
+fieldset { border: 1px solid #ccc; margin-bottom: 10px; padding: 10px; }
+
+.form-footer {
+    background-color: #9e9e9e;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-submit { background-color: #ef6c00; color: white; padding: 10px 20px; border: none; }
+.btn-clear { background-color: #ef6c00; color: white; padding: 10px 20px; border: none; }
