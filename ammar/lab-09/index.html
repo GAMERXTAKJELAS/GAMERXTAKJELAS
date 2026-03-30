@@ -1,47 +1,51 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Lab 9 - Shopping Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Shopping Cart</title>
     <link rel="stylesheet" href="style.css">
+    
+    <script src="data.js"></script>
     <script src="function.js"></script>
-    <script src="lab9.js"></script>
 </head>
 <body>
 
-    <h1>SHOPPING CART</h1>
+<div class="cart-container">
+    <h2>SHOPPING CART</h2>
+
     <table>
         <thead>
             <tr>
-                <th>Product</th>
-                <th></th>
-                <th>#</th>
-                <th>Price</th>
-                <th>Amount</th>
+                <th colspan="2">Product</th>
+                <th class="center">#</th>
+                <th class="right">Price</th>
+                <th class="right">Amount</th>
             </tr>
         </thead>
         <tbody>
-            <script src="lab7.js"></script>
+            <script src="Lab9.js"></script>
         </tbody>
         <tfoot>
-            <tr class="totals">
-                <td colspan="4">Subtotal</td>
-                <td><script>outputCurrency(subtotal);</script></td>
+            <tr>
+                <td colspan="4" class="summary-label">Subtotal</td>
+                <td class="summary-value"><script>outputCurrency(subtotal);</script></td>
             </tr>
-            <tr class="totals">
-                <td colspan="4">Tax</td>
-                <td><script>outputCurrency(tax);</script></td>
+            <tr>
+                <td colspan="4" class="summary-label">Tax</td>
+                <td class="summary-value"><script>outputCurrency(tax);</script></td>
             </tr>
-            <tr class="totals">
-                <td colspan="4">Shipping</td>
-                <td><script>outputCurrency(shipping);</script></td>
+            <tr>
+                <td colspan="4" class="summary-label">Shipping</td>
+                <td class="summary-value"><script>outputCurrency(shipping);</script></td>
             </tr>
-            <tr class="totals grand-total">
-                <td colspan="4">Grand Total</td>
-                <td><script>outputCurrency(grand);</script></td>
+            <tr class="grand-total-row">
+                <td colspan="4" class="grand-total-label">Grand Total</td>
+                <td class="grand-total-value"><script>outputCurrency(grand);</script></td>
             </tr>
         </tfoot>
     </table>
-<script src="data.js"></script>
+</div>
+
 </body>
 </html>
