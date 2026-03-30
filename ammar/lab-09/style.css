@@ -1,49 +1,49 @@
+
+/* style.css untuk Lab 09 */
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    padding: 20px;
-    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F5F5F5;
+    margin: 20px;
 }
 
-.cart-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-h2 {
-    text-transform: uppercase;
+h1 {
     font-size: 1.5em;
-    margin-bottom: 20px;
     color: #333;
-    text-align: left;
-    margin-left: 0;
+    margin-bottom: 20px;
 }
 
 table {
-    width: 100%;
+    width: 900px;
     border-collapse: collapse;
+    background-color: #FFFDF2; /* Warna krim lembut seperti dlm gambar */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* HEADER JADUAL - Warna Oren */
 thead tr {
-    background-color: #FF6600;
+    background-color: #F2711C; /* Warna oren terang  */
     color: white;
+    text-align: left;
 }
 
 th, td {
     padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #E0E0E0;
 }
 
-th {
-    font-weight: normal;
+/* GAYA GAMBAR PRODUK */
+td img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    display: block;
 }
 
-/* Penjajaran teks mengikut class JS */
+/* PENJAJARAN TEKS (Alignment) */
 .center {
     text-align: center;
 }
@@ -52,61 +52,35 @@ th {
     text-align: right;
 }
 
-/* Saiz Imej yang dipanggil dari JS */
-td img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    display: block;
+/* BAHAGIAN TOTALS (FOOTER) */
+tfoot tr {
+    background-color: #FFFDF2;
 }
 
-tbody td {
-    color: #555;
-    vertical-align: middle;
-}
-
-tfoot {
-    background-color: #FFFAF0;
-}
-
-tfoot tr:first-child td {
-    border-top: 1px solid #ddd;
-}
-
-tfoot td {
-    border-bottom: none;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.summary-label {
+.totals td:first-child {
     text-align: right;
-    color: #777;
-    font-size: 0.95em;
-    padding-right: 0;
+    font-weight: normal;
+    color: #666;
 }
 
-.summary-value {
+.totals td:last-child {
     text-align: right;
-    color: #777;
-    font-size: 0.95em;
 }
 
-.grand-total-row {
-    border-top: 1px solid #eee;
-}
-
-.grand-total-label {
-    text-align: right;
-    color: #E74C3C;
+/* GRAND TOTAL - Teks Merah & Tebal */
+.grand-total {
     font-weight: bold;
-    font-size: 1.1em;
-    padding-right: 0;
 }
 
-.grand-total-value {
-    text-align: right;
-    color: #E74C3C;
-    font-weight: bold;
-    font-size: 1.1em;
+.grand-total td:first-child {
+    color: #B03060; /* Warna merah gelap [cite: 187] */
+}
+
+.grand-total td:last-child {
+    color: #B03060;
+}
+
+/* Kesan Hover pada Baris */
+tbody tr:hover {
+    background-color: #FFF9E6;
 }
