@@ -21,7 +21,7 @@ h1 {
 
 /* Styling the first h1 to look like a logo */
 nav h1:first-child {
-  font-family: 'Georgia', serif;
+  font-family: 'lobster', cursive;
   font-style: italic;
   letter-spacing: 1px;
 }
