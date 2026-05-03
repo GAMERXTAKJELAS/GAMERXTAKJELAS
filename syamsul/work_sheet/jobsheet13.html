@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Storage Tutorial</title>
+    <style>
+        /* Base Styles [3, 5] */
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 17px;
+            transition: 0.3s;
+            padding: 20px;
+        }
+
+        /* Dark Mode Styles [3, 5] */
+        .dark-mode {
+            background-color: #222;
+            color: #eee;
+        }
+
+        /* Ensure links inherit color from body during theme changes [5] */
+        a {
+            color: inherit;
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="judul">Halo!</h1>
+
+    <!-- Navigation Links [2-4, 6] -->
+    <a href="#" onclick="gantiNama(event)">Ganti Nama</a>
+    <a href="#" onclick="hapusNama(event)">Hapus Nama</a>
+    <a href="#" class="togle">Dark Mode</a>
+    <a href="#" onclick="hapusStorage(event)">Hapus Storage</a>
+
+    <script>
+        // 1. Element Selectors [7, 8]
+        const judul = document.querySelector('h1');
+        const togle = document.querySelector('.togle');
+
+        // 2. Initialization Logic: Name [9-11]
+        let nama = localStorage.getItem('nama');
+
+        if (!nama) {
+            nama = prompt('Masukkan nama Anda:');
+            localStorage.setItem('nama', nama);
+        }
+        judul.innerHTML = `Halo, ${nama}!`;
+
+        // 3. Initialization Logic: Theme [8, 12, 13]
+        let tema = localStorage.getItem('tema');
+
+        if (!tema) {
+            localStorage.setItem('tema', 'light');
+        } else if (tema === 'dark') {
+            darkMode(); // Apply dark mode immediately if saved [13]
+        }
+
+        // --- FUNCTIONS ---
+
+        // Function to Change Name [2]
+        function gantiNama(e) {
+            e.preventDefault();
+            const namaBaru = prompt('Masukkan nama baru Anda:');
+            localStorage.setItem('nama', namaBaru);
+            judul.innerHTML = `Halo, ${namaBaru}!`;
+        }
+
+        // Function to Delete Name Key [14]
+        function hapusNama(e) {
+            e.preventDefault();
+            localStorage.removeItem('nama');
+            location.reload(); // Reload to trigger prompt again [14]
+        }
+
+        // Function to Clear All Storage [4]
+        function hapusStorage(e) {
+            e.preventDefault();
+            localStorage.clear();
+            location.reload();
+        }
+
+        // Function for Dark Mode [12, 15]
+        function darkMode() {
+            document.body.classList.add('dark-mode');
+            togle.innerHTML = 'Light Mode';
+            localStorage.setItem('tema', 'dark');
+        }
+
+        // Function for Light Mode [13]
+        function lightMode() {
+            document.body.classList.remove('dark-mode');
+            togle.innerHTML = 'Dark Mode';
+            localStorage.setItem('tema', 'light');
+        }
+
+        // 4. Toggle Event Listener [8, 15]
+        togle.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Fetch current state directly from storage for accuracy [8]
+            const currentTema = localStorage.getItem('tema');
+            if (currentTema === 'light') {
+                darkMode();
+            } else {
+                lightMode();
+            }
+        });
+    </script>
+</body>
+</html>
