@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JackQuery Part 5 - AJAX Final Result</title>
+ <style>
+        /* Styling for the 'old file' container mentioned in the video */
+                    body{
+                font-family:Arial;
+                font-size: 17px;
+            }
+            .header {
+                text-align: center;
+                padding: 20px;
+                background: rgb(96, 103, 233);
+                color: rgb(255, 255, 255);
+            }
+            .container {
+                padding: 50px;
+            }
+        /* CRITICAL: The image must have relative position for motion to work */
+        #GBR {
+            position: relative; 
+            margin-top: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+        <div class="header">
+            <h1>Tutorial Jquery Syamsul</h1>
+        </div>
+<div id="container">
+    <h1>About Me</h1>
+    <!-- Replace the old Lorem text here -->
+    <p id="paragraf">
+        Hello! I am a developer currently mastering <strong>jQuery</strong> and <strong>AJAX</strong>. 
+        I am learning how to create interactive web animations and how to swap data 
+        behind the scenes to make websites faster and more responsive.
+    </p>
+    
+    <div id="kotak">
+        <!-- Dynamic AJAX content will appear here -->
+    </div>
+</div>
+
+    <!-- Load jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            
+            // The final method used is $.ajax for maximum flexibility
+            $.ajax({
+                method: 'get',
+                url: 'https://jsonplaceholder.typicode.com/posts',
+                dataType: 'json',
+                success: function(data) {
+                    // Log the array of 100 items to the console for verification
+                    console.log(data);
+
+                    // Map through the data and append to the #kotak div
+                    data.map(function(item) {
+                        $('#kotak').append(
+                            '<h2>' + item.title + '</h2>' +
+                            '<p>' + item.body + '</p>' +
+                            '<hr>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Error handling if the URL or file is not found
+                    alert('File tidak ditemukan: ' + status);
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

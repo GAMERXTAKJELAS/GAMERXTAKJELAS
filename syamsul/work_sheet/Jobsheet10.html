@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JackQuery Tutorial Part 4 - Animation Effects</title>
+    <style>
+        /* Styling for the 'old file' container mentioned in the video */
+                    body{
+                font-family:Arial;
+                font-size: 17px;
+            }
+            .header {
+                text-align: center;
+                padding: 20px;
+                background: rgb(96, 103, 233);
+                color: rgb(255, 255, 255);
+            }
+            .container {
+                padding: 50px;
+            }
+        /* CRITICAL: The image must have relative position for motion to work */
+        #GBR {
+            position: relative; 
+            margin-top: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+        <div class="header">
+            <h1>Tutorial Jquery Syamsul</h1>
+        </div>
+    <div id="container">
+        <!-- Final Buttons used in the video -->
+        <button id="kiri">ke kiri</button>
+        <button id="kanan">ke kanan</button>
+        <button id="animasi">animasi</button>
+
+        <hr>
+
+        <!-- Final Element: Image (The paragraph and old buttons are removed/commented) -->
+        <img src="/syamsul/work_sheet/img/Masjid_Kristal.jpg" id="GBR" width="200">
+    </div>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        // Using the standard Ready Script Initialization [4]
+        $(document).ready(function() {
+
+            // Single button animation that performs a sequence [1], [2]
+            $('#animasi').click(function() {
+                $('#GBR').animate({ top: '200px' })    // 1. Move Down [1]
+                         .animate({ left: '300px' })   // 2. Move Right [1]
+                         .animate({ top: '0px' })      // 3. Move Up [1]
+                         .animate({ left: '0px' })     // 4. Move Left [1]
+                         .animate({ width: '400px' })  // 5. Enlarge [2]
+                         .animate({ opacity: '0' });   // 6. Fade Out [2]
+            });
+
+            // Individual motion controls [5]
+            $('#kanan').click(function() {
+                $('#GBR').animate({ left: '300px', width: '350px' });
+            });
+
+            $('#kiri').click(function() {
+                $('#GBR').animate({ left: '0px', width: '200px' });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JackQuery Part 3 - DOM Manipulation</title>
+<style>
+        /* Styling for the 'old file' container mentioned in the video */
+                    body{
+                font-family:Arial;
+                font-size: 17px;
+            }
+            .header {
+                text-align: center;
+                padding: 20px;
+                background: rgb(96, 103, 233);
+                color: rgb(255, 255, 255);
+            }
+            .container {
+                padding: 50px;
+            }
+        /* CRITICAL: The image must have relative position for motion to work */
+        #GBR {
+            position: relative; 
+            margin-top: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 5px 15px;
+        }
+        .style_baru {
+    color: yellow;
+    background: black;
+    padding: 10px;
+}
+    </style>
+</head>
+<body>
+        <div class="header">
+            <h1>Tutorial Jquery Syamsul</h1>
+        </div>
+    <div id="container">
+        <h1 class="judul">Tutorial DOM jQuery</h1>
+        
+        <!-- Controls for style and text manipulation -->
+        <button id="tombol">Ubah Style (Toggle)</button>
+        <button id="tombol_2">Ubah Kalimat</button>
+
+        <p id="P1">hello</p>
+        
+        <hr>
+
+        <!-- Input for adding items dynamically -->
+        <label>Tambah Item Baru:</label>
+        <input type="text" id="item_baru" placeholder="Ketik lalu tekan Enter">
+
+        <!-- The list that gets populated by the array -->
+        <ul id="list">
+            <li>Item Default</li>
+        </ul>
+    </div>
+
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            // --- 1. STYLE & TEXT MANIPULATION ---
+            // Toggling a class on the heading
+            $('#tombol').click(function() {
+                $('.judul').toggleClass('style_baru'); // [4]
+            });
+
+            // Changing paragraph content to HTML
+            $('#tombol_2').click(function() {
+                $('#P1').html('<h2>saya syamsul</h2>'); // [5]
+            });
+
+
+            // --- 2. DYNAMIC INPUT (Final Section) ---
+            // Adding items to the list when "Enter" is pressed
+            $('#item_baru').keyup(function(e) {
+                var kode_k = e.which; // Get keyboard code [1]
+                if (kode_k == 13) { // 13 is the code for Enter [6]
+                    e.preventDefault();
+                    var nilai = e.target.value;
+                    $('#list').prepend('<li>' + nilai + '</li>'); // Add to top of list [3]
+                    $(this).val(''); // Clear input after adding
+                }
+            });
+
+
+            // --- 3. ARRAY LOOPING (The Very Last Result) ---
+            // Array of food items created by the instructor [3]
+            var aray_saya = ["donat", "sate", "nasi goreng", "ayam bakar"];
+
+            // Loop through the array and prepend each to the list [2]
+            $.each(aray_saya, function(i, val) {
+                $('#list').prepend('<li>' + val + '</li>');
+            });
+
+        });
+    </script>
+</body>
+</html>
