@@ -1,6 +1,6 @@
-### Muhammad Syamsul Nazir bin Mohd Samsuri
+### Syamsul Nazir
 
-Final-year Diploma student in **Computer Technology (Big Data)** at **TVETMARA Lumut**, building serverless web applications, relational databases, and embedded IoT access systems.
+Building serverless web architectures, relational databases, and embedded IoT access systems.
 
 ```yaml
 stack:
@@ -14,5 +14,6 @@ recognition:
 ---
 
 #### Selected Projects
-- **[DORMITORATION (Dormitory Monitor Operation System)](https://github.com/GAMERXTAKJELAS/dormitoration)** — Full-stack hostel registration and automated room allocation platform built on Cloudflare Workers, D1, R2, and Workers AI, paired with **[ESP32 QR Smart Lock Firmware](https://github.com/GAMERXTAKJELAS/dormitoration-hardware)**.
-- **[LAPCC (Laptop Companion)](https://github.com/GAMERXTAKJELAS/LAPCC)** — Cross-platform diagnostic and preventive maintenance guide application for student laptops ([Live Showcase](https://gamerxtakjelas.github.io/Project-30-Mior-Syamsul/)).
+- **[DORMITORATION (Dormitory Monitor Operation System)](https://github.com/GAMERXTAKJELAS/dormitoration)** — Full-stack hostel registration and automated room allocation platform built on Cloudflare Workers, D1, R2, and Workers AI, paired with **[ESP32 QR Smart Lock Firmware](https://github.com/GAMERXTAKJELAS/Dormitoration-hardware)**.
+- **[MFA_Demo](https://github.com/GAMERXTAKJELAS/MFA_Demo)** — Out-of-Band Two-Factor Authentication (2FA) implementation using Python Flask, Telegram Bot API, and Cloudflare Workers.
+- **[LAPCC (Laptop Companion)](https://github.com/GAMERXTAKJELAS/LAPCC)** — Cross-platform diagnostic and preventive maintenance guide application for laptops ([Live Showcase](https://gamerxtakjelas.github.io/Project-30-Mior-Syamsul/)).
